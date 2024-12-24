@@ -1,0 +1,49 @@
+.nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color: red; */
+    height: 10vh;
+    margin: 0 70px;
+}
+
+.logoHead h3{
+    color: #fff;
+}
+
+.logoHead{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.signin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.signinBtn{
+    padding: 10px 20px;
+    border: 1px solid #7EA6FF;
+    background: transparent;
+    border-radius: 7px;
+    color: #7EA6FF;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.formBotBtn{
+    padding: 10px 20px;
+    background-color: #1A5FFF;
+    color: #fff;
+    border-radius: 7px;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 600;   
+}
+
+
+

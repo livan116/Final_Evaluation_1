@@ -1,0 +1,178 @@
+.container{
+    background: linear-gradient(
+        #121212,#18181B
+        
+    );
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.container form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 75vh;
+    /* z-index: 10; */
+    
+}
+
+button{
+    cursor: pointer;
+}
+
+label{
+    color: #fff;
+}
+
+.userName{
+    margin: 5px;
+    
+}
+input{
+    width: 20vw;
+    height: 5vh;
+    border-radius: 10px;
+    padding: 5px;
+    background: transparent;
+    color: #9c9c9c;
+    outline: none;
+    border: 1px solid #9c9c9c;
+    margin-top: 10px;
+    
+}
+.email{
+    margin: 5px;
+}
+.password{
+    margin: 5px;
+}
+.confirmPassword{
+    margin: 5px;
+}
+
+.error label{
+    color: red;
+}
+
+.error input{
+    border: 1px solid red;
+}
+
+.error p{
+    color: red;
+    height: 30px;
+}
+
+.submit{
+    width: 20vw;
+    height: 6vh;
+    border-radius: 10px;
+    background-color: #1A5FFF;
+    color: #fff;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 30px;
+    
+}
+
+.accountExists{
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.accountExists a{
+    color: #1A5FFF;
+    margin-left: 10px;
+}
+
+.google{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: -80px;
+}
+
+
+.google p{
+    /* margin-top: 10px; */
+    color: #fff;
+}
+
+.googleLogo{
+    background-color: #fff;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+/* back button */
+
+.backBtn{
+    position: relative;
+    left: 10vw;
+    top: 8vh;
+}
+
+.backBtn a{
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+}
+
+.semicircle1{
+    position: absolute;
+  transform: translate(-50%, -25%);
+  height: 200px;
+  width: 230px;
+  border-radius: 150px 150px 0 0;
+  background-color: #ff9595;
+  transform: rotate(270deg);
+  left: 92%;
+  top: 20%;
+}
+
+    .semicircle2{
+        position: absolute;
+    transform: translate(-50%, -25%);
+    height: 200px;
+    width: 230px;
+    border-radius: 150px 150px 0 0;
+    background-color: #ff9595;
+    left: 70%;
+    top: 91%;
+    z-index: 0;
+    }
+
+    .triangle1{
+        position: relative;
+        width: 0;
+	height: 0;
+    top: 37.5%;
+    left: 18%;
+    transform: translate(-50%, -25%);
+    transform: rotate(2deg);
+    }
+    .triangle2{
+        position: relative;
+        width: 0;
+	height: 0;
+    top: 35%;
+    left: 19%;
+    transform: translate(-50%, -25%);
+    transform: rotate(2deg);
+    }
