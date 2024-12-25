@@ -1,0 +1,43 @@
+.containerInfo{
+    color: #Fff;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 100px;
+}
+
+.firstInfo{
+
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 150px;
+}
+
+
+.firstPart{
+    width: 20%;
+    margin-top: 60px;
+}
+
+.firstPart p{
+    width: 75%;
+    margin-top: 30px;
+}
+
+.secondInfo{
+
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+}
+
+.secondPart{
+    width: 20%;
+    margin-top: 60px;
+}
+
+.secondPart p{
+    width: 75%;
+    margin-top: 30px;
+}

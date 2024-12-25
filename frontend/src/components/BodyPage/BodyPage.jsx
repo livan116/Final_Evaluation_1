@@ -53,25 +53,27 @@ const BodyPage = () => {
               </div>
 
               <div className={style.checkbox}>
-                <input type="checkbox" id="webdev" />
+                <input type="checkbox" id="webdev" required/>
                 <label htmlFor="webdev">Website Dev</label>
               </div>
               <div className={style.checkbox}>
-                <input type="checkbox" />
+                <input type="checkbox" required/>
                 <label>Content Marketing</label>
               </div>
               <div className={style.checkbox}>
-                <input type="checkbox" />
+                <input type="checkbox"required />
                 <label>Social Media</label>
               </div>
               <div className={style.checkbox}>
-                <input type="checkbox" />
+                <input type="checkbox" required/>
                 <label>UX/UI Design</label>
               </div>
 
+              <div className={style.additionalInformation}>
               <label>Additional Information</label>
               <p>*</p>
-              <textarea name="" id=""></textarea>
+              </div>
+              <textarea name="textarea" id=""></textarea>
 
               <div className="submitBtn">
                 <button type="submit"> submit</button>
@@ -93,6 +95,7 @@ const BodyPage = () => {
                 <img src={gif} alt="gif" />
               </div>
             </div>
+            <div className={style.hiBtn}><button>Hi!</button></div>
           </div>
         </div>
       </div>

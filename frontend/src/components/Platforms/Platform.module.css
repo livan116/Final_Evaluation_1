@@ -1,0 +1,52 @@
+.platformContainer{
+    columns: #fff;
+    /* background-color: red; */
+    display: flex;
+    gap: 50px;
+    flex-direction: column;
+    margin-top: 200px;
+}
+
+.upper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 80px;
+}
+
+.lower{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 80px;
+}
+
+.card{
+    background-color: #1A202C;
+    border: 1px solid #A0AEC0;
+    outline: none;
+    border-radius: 10px;
+    padding: 10px;
+    height: 120px;
+    width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: ease-in-out;
+}
+
+.card:hover{
+    transform: scale(1.1);
+}
+
+.platformText{
+    color: #fff;
+    width: 35%;
+    margin-left: 10vw;
+    margin-top: 20px;
+}
+
+.platformText p{
+    margin-top: 10px;
+    color: #A0AEC0;
+}
