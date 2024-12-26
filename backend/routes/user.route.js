@@ -44,4 +44,4 @@ router.post("/register", async (req, res) => {
     const token = jwt.sign(payload, process.env.JWT_SECRET);
     res.status(200).json({ token, message:"Login Successfull" });
   });
-  module.exports = router;  
+  module.exports = router;

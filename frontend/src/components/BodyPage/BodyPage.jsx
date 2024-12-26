@@ -5,23 +5,44 @@ import cross from "../../assets/cross.png";
 import right from "../../assets/right.png";
 import bot from "../../assets/profile-bot.png";
 import gif from "../../assets/giphy.gif";
+import tri from "../../assets/tri3.png";
+import UU from "../../assets/UU.png";
+import orange from "../../assets/orangeBg.png";
+import blue from "../../assets/blurBlur.png";
 
 const BodyPage = () => {
   return (
     <div className={style.bodyContainer}>
-      <div className={style.main}>
-        <h1>
-          Build advanced chatbots <br /> visually
-        </h1>
-        <p>
-          Typebot gives you powerful blocks to create unique chat experiences.
-          Embed them <br />
-          anywhere on your web/mobile apps and start collecting results like
-          magic.
-        </p>
-        <button>Create a FormBot for free</button>
-        <img src={homeImg} alt="homeImg" />
+      <div className={style.flexContainer}>
+        <div className={style.leftImg}>
+          <img src={tri} alt="" />
+        </div>
+        <div className={style.main}>
+          <h1>
+            Build advanced chatbots <br /> visually
+          </h1>
+          <p>
+            Typebot gives you powerful blocks to create unique chat experiences.
+            Embed them <br />
+            anywhere on your web/mobile apps and start collecting results like
+            magic.
+          </p>
+          <button>Create a FormBot for free</button>
+        </div>
+        <div className={style.rightImg}>
+          <img src={UU} alt="" />
+        </div>
       </div>
+      <div className={style.bgContainer}>
+        <div className={style.backImage}>
+          <img src={orange} alt="" />
+          <img src={blue} alt="" />
+        </div>
+        <div className={style.homeImage}>
+          <img src={homeImg} alt="homeImg" />
+        </div>
+      </div>
+
       <div className={style.chatBotSection}>
         <h2>
           Replace your old school forms <br /> with <br />
@@ -47,31 +68,36 @@ const BodyPage = () => {
                 <label>Email</label> <p>*</p>
               </div>
               <input type="email" required placeholder="Email" />
+
               <div className={style.label}>
                 <label>What services are you interested in?</label>
                 <p>*</p>
               </div>
-
               <div className={style.checkbox}>
-                <input type="checkbox" id="webdev" required/>
+                <input
+                  type="checkbox"
+                  id="webdev"
+                  className={style.check}
+                  required
+                />
                 <label htmlFor="webdev">Website Dev</label>
               </div>
               <div className={style.checkbox}>
-                <input type="checkbox" required/>
+                <input type="checkbox" required className={style.check} />
                 <label>Content Marketing</label>
               </div>
               <div className={style.checkbox}>
-                <input type="checkbox"required />
+                <input type="checkbox" required className={style.check} />
                 <label>Social Media</label>
               </div>
               <div className={style.checkbox}>
-                <input type="checkbox" required/>
+                <input type="checkbox" required className={style.check} />
                 <label>UX/UI Design</label>
               </div>
 
               <div className={style.additionalInformation}>
-              <label>Additional Information</label>
-              <p>*</p>
+                <label>Additional Information</label>
+                <p>*</p>
               </div>
               <textarea name="textarea" id=""></textarea>
 
@@ -95,7 +121,9 @@ const BodyPage = () => {
                 <img src={gif} alt="gif" />
               </div>
             </div>
-            <div className={style.hiBtn}><button>Hi!</button></div>
+            <div className={style.hiBtn}>
+              <button>Hi!</button>
+            </div>
           </div>
         </div>
       </div>

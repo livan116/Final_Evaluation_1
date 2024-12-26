@@ -4,6 +4,7 @@ import profile from "../../assets/profile-bot.png";
 import teams from "../../assets/teams.png";
 import tri3 from "../../assets/tri3.png"
 import UU from "../../assets/UU.png"
+import {Link} from "react-router-dom"
 
 const ChatBot = () => {
   return (
@@ -134,6 +135,37 @@ const ChatBot = () => {
         </div>
         <div className={style.imageCircle}>
       <img src={UU} alt="" />
+      </div>
+      </div>
+      <div className={style.footer}>
+      <div className={style.one}>
+     <p> Made with ❤️ by <br />
+     <Link to="#">@cuvette</Link></p>
+      </div>
+      <div className={style.two}>
+        <ul>
+          <li><Link>Status<i className="fa">&#xf08e;</i></Link></li>
+          <li><Link>Documentation<i className="fa">&#xf08e;</i></Link></li>
+          <li><Link>Roadmap<i className="fa">&#xf08e;</i></Link></li>
+          <li><Link>Pricing<i className="fa">&#xf08e;</i></Link></li>
+        </ul>
+      </div>
+      <div className={style.three}>
+      <ul>
+          <li><Link>Discord<i className="fa">&#xf08e;</i></Link></li>
+          <li><Link>GitHub repository<i className="fa">&#xf08e;</i></Link></li>
+          <li><Link>Twitter<i className="fa">&#xf08e;</i></Link></li>
+          <li><Link>LinkedIn<i className="fa">&#xf08e;</i></Link></li>
+          <li><Link>OSS Friends<i className="fa">&#xf08e;</i></Link></li>
+        </ul>
+      </div>
+      <div className={style.four}>
+      <ul>
+          <li><Link>About</Link></li>
+          <li><Link>Contact</Link></li>
+          <li><Link>Terms of Service</Link></li>
+          <li><Link>Privacy Policy</Link></li>
+        </ul>
       </div>
       </div>
     </>

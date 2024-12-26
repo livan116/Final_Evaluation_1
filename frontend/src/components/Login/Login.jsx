@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "../Register/Register.module.css";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import logo from "../../assets/Google Icon.png";
@@ -12,6 +13,8 @@ const Login = () => {
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,16 +29,29 @@ const Login = () => {
       const response = await axios.post(
         "http://localhost:4000/api/user/login",
         formData
+      ).then(
+        navigate('/form-dashboard')
       )
       toast.success(response.data.message, {
         duration: 4000,
         position: "top-right",
       });
     } catch (err) {
-      console.error(err.response.data);
+      console.error(err);
       toast.error("Registration failed!");
     }
   };
+
+  useEffect(()=>{
+    const token = localStorage.getItem('token');
+    if(token){
+      toast.success("User Already logged in", {
+        duration: 4000,
+        position: "top-right",
+      });
+      navigate('/form-dashboard')
+    }
+  })
   return (
     <div>
       <div className={style.container}>
