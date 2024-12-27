@@ -6,6 +6,8 @@ import Login from './components/Login/Login'
 import "./App.css"
 import { Toaster } from 'react-hot-toast'
 import FormDashboard from './Pages/FormDashboard/FormDashboard'
+import Settings from './Pages/Settings/Settings'
+import WorkSpace from './Pages/WorkSpace/WorkSpace'
 
 const App = () => {
   return (
@@ -17,6 +19,8 @@ const App = () => {
           <Route path='/register' element ={<Register/>}/>
           <Route path='/login' element ={<Login/>}/>
           <Route path='/form-dashboard' element ={<FormDashboard/>}/>
+          <Route path='/settings' element={<Settings/>}/>
+          <Route path='/workspace' element={<WorkSpace/>}/>
         </Routes>
       </BrowserRouter>
     </>

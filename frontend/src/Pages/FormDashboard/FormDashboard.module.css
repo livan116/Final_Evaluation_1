@@ -155,12 +155,31 @@ option{
     flex-direction: column;
     gap: 8px;
   }
+
+  .createFolderBtn{
+    color: #fff;
+    /* background-color: red; */
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  li{
+    list-style: none;
+  }
+
   .createFolderBtn button{
     color: white;
     background-color: rgb(62, 62, 62);
     padding: 10px 22px;
     border-radius: 5px;
     border: none;
+  }
+
+  .newBtn i{
+    color: #fff;
+    margin-right: 5px;
+    /* background-color: transparent; */
   }
 
   /* .createTypeBot{
@@ -171,7 +190,7 @@ option{
     background-color: #1A5FFF;
     color: #fff;
     border: none;
-    height: 250px;
+    height: 240px;
     width: 200px;
     border-radius: 5px;
   }
@@ -200,7 +219,7 @@ option{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 95vh;
+    height: 90vh;
     max-width: 100%;
     width: 100vw;
     /* background-color: #ccc; */
@@ -222,6 +241,11 @@ option{
 
 .shareText{
   font-size: 2rem;
+}
+
+.inputShare{
+  border: none;
+  background-color: #1f1f1f;
 }
 
 .editText select{
@@ -266,4 +290,84 @@ option{
     font-size: 1.5rem;
     background-color: transparent;
     border: none;
+}
+
+/* modal 2 */
+
+.modalTwo{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 57vh;
+  max-width: 100%;
+  width: 90vw;
+  /* background-color: #1A5FFF; */
+}
+
+.createFolderForm{
+  background-color: #121212;
+  padding: 20px;
+  width: 29vw;
+  border-radius: 20px;
+}
+
+.createFolderForm label{
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.createFolderForm input{
+  width: 100%;
+  height: 8vh;
+} 
+
+.buttons{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  /* gap: 30px; */
+  margin-top: 30px;
+}
+
+.div{
+  font-size: 2.5rem;
+  font-weight: 200;
+  color: #3e3d3d;
+}
+
+.buttons button{
+  padding: 10px;
+  border: none;
+  background-color: transparent;
+  /* color: #fff; */
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.doneBtn{
+  color: #1A5FFF;
+}
+
+.cancelBtn{
+  color: #fff;
+}
+
+
+/* name mapping */
+
+.folderList{
+  display: flex;
+  gap: 10px;
+}
+
+.fName i{
+  color: #F55050;
+  margin-left: 5px;
+  font-weight: 300;
+}
+
+.createFolderName{
+  text-align: center;
+  display: flex;
+  justify-content: center;
 }

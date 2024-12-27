@@ -1,39 +1,44 @@
 /* Settings.module.css */
 .settingsContainer {
+    width: 100vw;
+    height: 100vh;
+    background-color: #1e1e1e;
+  }
+
+  .settings{
+    /* background-color: red; */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    background-color: #1e1e1e;
+    height: 75vh;
   }
   
   .title {
     color: white;
     margin-bottom: 20px;
+    font-weight: 400;
   }
   
   .settingsForm {
     display: flex;
     flex-direction: column;
-    background-color: #292929;
+    /* background-color: #292929; */
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+
   }
   
   .inputWrapper {
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
   }
   
   .input {
-    width: 100%;
-    padding: 15px;
-    border: none;
+    width: 30vw;
+    padding: 20px;
     border-radius: 5px;
     font-size: 16px;
-    background-color: #404040;
     color: white;
     padding-left: 45px;
   }
@@ -41,7 +46,7 @@
   .icon {
     position: absolute;
     left: 10px;
-    top: 50%;
+    top: 60%;
     transform: translateY(-50%);
     color: #888;
     font-size: 18px;
@@ -50,7 +55,7 @@
   .toggleIcon {
     position: absolute;
     right: 10px;
-    top: 50%;
+    top: 60%;
     transform: translateY(-50%);
     color: #888;
     font-size: 18px;
@@ -60,9 +65,10 @@
   .updateButton {
     padding: 15px;
     border: none;
-    border-radius: 5px;
+    border-radius: 20px;
     background-color: #007bff;
     color: white;
+    margin-top: 30px;
     font-size: 16px;
     cursor: pointer;
   }
@@ -71,3 +77,22 @@
     background-color: #0056b3;
   }
   
+  .logout{
+    height: 25vh;
+    display: flex;
+    align-items: end;
+    padding: 0px 0px 80px 50px;
+  }
+
+  .logoutBtn{
+    padding: 10px;
+    color: red;
+    font-size: 1.1rem;
+    background-color: transparent;
+    border: none;
+
+  }
+
+  .logoutBtn i{
+    margin-right: 10px;
+  }
