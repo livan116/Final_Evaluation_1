@@ -8,6 +8,8 @@ import { Toaster } from 'react-hot-toast'
 import FormDashboard from './Pages/FormDashboard/FormDashboard'
 import Settings from './Pages/Settings/Settings'
 import WorkSpace from './Pages/WorkSpace/WorkSpace'
+import FormBuilder from "./Pages/DashBoard/FormBuilder"
+import ChatbotPage from './Pages/ChatBot/ChatbotPage'
 
 const App = () => {
   return (
@@ -21,6 +23,8 @@ const App = () => {
           <Route path='/form-dashboard' element ={<FormDashboard/>}/>
           <Route path='/settings' element={<Settings/>}/>
           <Route path='/workspace' element={<WorkSpace/>}/>
+          <Route path='/dashboard' element={<FormBuilder/>}/>
+          <Route path='/formbot' element={<ChatbotPage/>}/>
         </Routes>
       </BrowserRouter>
     </>

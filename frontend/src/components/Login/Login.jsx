@@ -27,15 +27,18 @@ const Login = () => {
     try {
       // Send the form data to the backend
       const response = await axios.post(
-        "http://localhost:4000/api/user/login",
+        "http://localhost:5000/api/auth/login",
         formData
-      ).then(
+      );
+      if(response.status === 200){
+        localStorage.setItem('token', response.data.token)
         navigate('/form-dashboard')
-      )
-      toast.success(response.data.message, {
-        duration: 4000,
-        position: "top-right",
-      });
+        toast.success(response.data.message, {
+          duration: 4000,
+          position: "top-right",
+        });
+      }
+      
     } catch (err) {
       console.error(err);
       toast.error("Registration failed!");

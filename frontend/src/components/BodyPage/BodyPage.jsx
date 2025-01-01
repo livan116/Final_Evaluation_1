@@ -61,17 +61,17 @@ const BodyPage = () => {
           <div className={style.formLeft}>
             <form>
               <div className={style.label}>
-                <label>Full name</label> <p>*</p>
+                <label>Full name</label> <span>*</span>
               </div>
               <input type="text" required placeholder="Full name" />
               <div className={style.label}>
-                <label>Email</label> <p>*</p>
+                <label>Email</label> <span>*</span>
               </div>
               <input type="email" required placeholder="Email" />
 
               <div className={style.label}>
                 <label>What services are you interested in?</label>
-                <p>*</p>
+                <span>*</span>
               </div>
               <div className={style.checkbox}>
                 <input
@@ -97,7 +97,7 @@ const BodyPage = () => {
 
               <div className={style.additionalInformation}>
                 <label>Additional Information</label>
-                <p>*</p>
+                <span>*</span>
               </div>
               <textarea name="textarea" id=""></textarea>
 

@@ -1,33 +1,57 @@
-const express = require("express");
-const mongoose = require('mongoose')
-const bodyParser = require("body-parser");
-const dotenv = require("dotenv")
-const userRoute = require("./routes/user.route")
-const cors = require("cors")
-const app = express();
+const express = require('express');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const authRoutes = require('./routes/user.route');
+const folderRoutes = require('./routes/folder.route');
+const formRoutes = require('./routes/form.routes');
+
+// Initialize dotenv to access environment variables
 dotenv.config();
 
+// Initialize express app
+const app = express();
 
-const PORT = process.env.PORT || 3000;
+// Middleware to parse incoming requests with JSON payloads
+app.use(express.json());
 
-app.use(cors())
+// Enable CORS
+app.use(cors());
 
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI)
+.then(() => {
+    console.log('MongoDB connected');
+})
+.catch((error) => {
+    console.error('MongoDB connection error:', error);
+});
 
-app.use(express.urlencoded({extended:true}))
-app.use(bodyParser.json());
-app.use(express.json())
-app.use("/api/user",userRoute);
-// app.use("/api/job",jobRoute);
+// Home route to ensure server is running
+app.get('/', (req, res) => {
+    res.send('Server is running!');
+});
 
+// Route middleware for user authentication (register/login)
+app.use('/api/auth', authRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server is Listening on PORT : ${PORT}`);
-  mongoose
-    .connect(process.env.MONGO_URI)
-    .then(() => {
-      console.log("Mongo db Connected");
-    })
-    .catch((error) => {
-      console.log(error);
+// Route middleware for folder-related operations
+app.use('/api/folders', folderRoutes);
+app.use('/api/forms', formRoutes);
+
+// Global error handler middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send({
+        success: false,
+        message: 'Something went wrong!',
     });
+});
+
+// Define the port from environment or default to 5000
+const PORT = process.env.PORT || 5000;
+
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });

@@ -148,17 +148,18 @@ option{
 
   .createFolder{
     max-width: 100%;
+    /* background-color: blue; */
     margin: 50px 50px 30px 250px;
     width: 80vw;
     max-height: fit-content;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 25px;
   }
 
   .createFolderBtn{
     color: #fff;
-    /* background-color: red; */
+    /* background-color: red;   */
     display: flex;
     gap: 20px;
     align-items: center;
@@ -182,9 +183,36 @@ option{
     /* background-color: transparent; */
   }
 
-  /* .createTypeBot{
-    position: ;
-  } */
+  .createTypeBot{
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    /* margin */
+    
+  }
+
+  .createTypeBot button{
+   position: relative;
+  }
+
+  .createTypeBot button i{
+    color: #F55050;
+  font-weight: 500;
+    position: absolute;
+    top: -1.3vh;
+    right: -0.3vw;
+    font-size: 1.1rem;
+  }
+
+  .formNameBtn{
+    background-color: #FFFFFF80;
+    height: 240px;
+    outline: none;
+    border: none;
+    width: 200px;
+    border-radius: 5px;
+
+  }
 
   .createBotBtn{
     background-color: #1A5FFF;
@@ -326,7 +354,8 @@ option{
   justify-content: space-around;
   align-items: center;
   /* gap: 30px; */
-  margin-top: 30px;
+  /* margin-top: 30px;
+   */
 }
 
 .div{
@@ -364,6 +393,7 @@ option{
   color: #F55050;
   margin-left: 5px;
   font-weight: 300;
+  /* background-color: red; */
 }
 
 .createFolderName{

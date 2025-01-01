@@ -12,7 +12,7 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
-    confirmPassword:""
+    confirmPassword: "",
   });
 
   const handleChange = (e) => {
@@ -26,14 +26,29 @@ const Register = () => {
     try {
       // Send the form data to the backend
       const response = await axios.post(
-        "http://localhost:4000/api/user/register",
+        "http://localhost:5000/api/auth/register",
         formData
-      )
+      );
+      console.log(response);
+      if (response.status === 201) {
+        toast.success(response.data.message, {
+          duration: 4000,
+          position: "top-right",
+        });
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        });
+      }
 
-      toast.success(response.data.message, {
-        duration: 4000,
-        position: "top-right",
-      });
+      if (response.status === 400) {
+        toast.error(response.message, {
+          duration: 4000,
+          position: "top-right",
+        });
+      }
     } catch (err) {
       console.error(err.response.data);
       toast.error("Registration failed!");
@@ -43,7 +58,7 @@ const Register = () => {
     <div>
       <div className={style.container}>
         <div className={style.backBtn}>
-          <Link to='/'>
+          <Link to="/">
             <i className="fa-solid fa-arrow-left"></i>
           </Link>
         </div>
@@ -89,22 +104,34 @@ const Register = () => {
             />
           </div>
           {console.log(formData.password !== formData.confirmPassword)}
-          {(formData.password !== formData.confirmPassword) ?(
-            <div className={style.error }>
-            <label>Confirm password</label>
-            <br />
-            <input type="password" name="confirmPassword" placeholder="..........." onChange={handleChange} value={formData.confirmPassword}/>
-            <p>password doesnot match</p>
-          </div>
-          ):(
+          {formData.password !== formData.confirmPassword ? (
+            <div className={style.error}>
+              <label>Confirm password</label>
+              <br />
+              <input
+                type="password"
+                name="confirmPassword"
+                placeholder="..........."
+                onChange={handleChange}
+                value={formData.confirmPassword}
+              />
+              <p>password doesnot match</p>
+            </div>
+          ) : (
             <div className={style.confirmPassword}>
-            <label>Confirm password</label>
-            <br />
-            <input type="password" name="confirmPassword" onChange={handleChange} value={formData.confirmPassword} placeholder="..........." />
-            <div className={style.errorMessage}></div>
-          </div>
+              <label>Confirm password</label>
+              <br />
+              <input
+                type="password"
+                name="confirmPassword"
+                onChange={handleChange}
+                value={formData.confirmPassword}
+                placeholder="..........."
+              />
+              <div className={style.errorMessage}></div>
+            </div>
           )}
-          
+
           <button className={style.submit}>Sign Up</button>
         </form>
         <div className={style.google}>
