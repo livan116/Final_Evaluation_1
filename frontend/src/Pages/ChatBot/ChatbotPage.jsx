@@ -6,6 +6,7 @@ const ChatbotForm = () => {
   const [responses, setResponses] = useState([]); // Store chat history
   const [currentFieldIndex, setCurrentFieldIndex] = useState(0);
   const [formCompleted, setFormCompleted] = useState(false);
+  const [currentValue, setCurrentValue] = useState(''); // To store current input value
 
   const linkId = localStorage.getItem('linkId'); // Get linkId from localStorage
 
@@ -36,10 +37,15 @@ const ChatbotForm = () => {
       type: 'bubble', // Mark it as a bubble
     };
 
-    setResponses((prevResponses) => [...prevResponses, newResponse]);
+    const updatedResponses = [...responses, newResponse];
 
-    // Move to the next field after bubble response
-    if (currentFieldIndex < form.fields.length - 1) {
+    setResponses(updatedResponses);
+
+    // Check if it's the last field and mark as completed
+    if (currentFieldIndex === form.fields.length - 1) {
+      setFormCompleted(true);
+      submitForm(updatedResponses); // Save responses to the backend
+    } else {
       setCurrentFieldIndex(currentFieldIndex + 1);
     }
   };
@@ -53,13 +59,14 @@ const ChatbotForm = () => {
       type: 'input', // Mark it as an input
     };
 
-    setResponses((prevResponses) => [...prevResponses, newResponse]);
+    const updatedResponses = [...responses, newResponse];
 
-    // If it's the last field, set form as completed
+    // Check if it's the last field and mark as completed
     if (currentFieldIndex === form.fields.length - 1) {
       setFormCompleted(true); // Form completed
-      await submitForm([...responses, newResponse]); // Pass the updated responses array
+      await submitForm(updatedResponses); // Pass the updated responses array
     } else {
+      setResponses(updatedResponses); // Update responses state
       setCurrentFieldIndex(currentFieldIndex + 1); // Move to the next field
     }
   };
@@ -87,7 +94,7 @@ const ChatbotForm = () => {
       const currentField = form.fields[currentFieldIndex];
 
       // If it's a bubble field, proceed to the next one automatically after a short delay
-      if (currentField.type === 'bubble' && currentFieldIndex < form.fields.length - 1) {
+      if (currentField.type === 'bubble') {
         setTimeout(() => {
           handleBubbleResponse();
         }, 1000); // Delay before moving to the next bubble field
@@ -128,9 +135,14 @@ const ChatbotForm = () => {
             type={currentField.inputType}
             placeholder={`Enter your ${currentField.label.toLowerCase()}`}
             style={{ marginBottom: '10px', padding: '5px', width: '100%' }}
+            value={currentValue}
+            onChange={(e) => setCurrentValue(e.target.value)}
           />
           <button
-            onClick={() => handleInputSubmit(document.querySelector('input').value)}
+            onClick={() => {
+              handleInputSubmit(currentValue);
+              setCurrentValue(''); // Clear input field after submission
+            }}
             style={{ padding: '10px', backgroundColor: '#4CAF50', color: 'white' }}
           >
             Send

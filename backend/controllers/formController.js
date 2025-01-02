@@ -205,8 +205,6 @@ exports.getFormsByFolderId = async (req, res) => {
       res.status(500).json({ message: 'Error fetching form data.' });
     }
   };
-  
-
 
 
 // Save form responses
