@@ -6,15 +6,9 @@ const ChatbotForm = () => {
   const [responses, setResponses] = useState([]); // Store chat history
   const [currentFieldIndex, setCurrentFieldIndex] = useState(0);
   const [formCompleted, setFormCompleted] = useState(false);
-//   const [count,setCount] = useState(parseInt(localStorage.getItem("count")) || 0);
-//   localStorage.setItem("count",count);
-
-//   const getCount = localStorage.getItem("count");
-//   console.log("getCount",getCount);
-
 
   const linkId = localStorage.getItem('linkId'); // Get linkId from localStorage
-  
+
   useEffect(() => {
     // Fetch form data from the backend using Axios
     const fetchFormData = async () => {
@@ -22,21 +16,16 @@ const ChatbotForm = () => {
         const response = await axios.get(`http://localhost:5000/api/forms/share/${linkId}`);
         if (response.data.success) {
           setForm(response.data.form);
-          
         } else {
           alert('Form not found');
         }
       } catch (error) {
         console.error('Error fetching form data:', error);
       }
-      setCount(count+1);
     };
 
     fetchFormData();
-    
   }, [linkId]);
-
-  console.log("count",count);
 
   // Function to handle bubble field progression
   const handleBubbleResponse = () => {
@@ -66,21 +55,21 @@ const ChatbotForm = () => {
 
     setResponses((prevResponses) => [...prevResponses, newResponse]);
 
-    // Move to the next field after input submission
-    if (currentFieldIndex < form.fields.length - 1) {
-      setCurrentFieldIndex(currentFieldIndex + 1);
+    // If it's the last field, set form as completed
+    if (currentFieldIndex === form.fields.length - 1) {
+      setFormCompleted(true); // Form completed
+      await submitForm([...responses, newResponse]); // Pass the updated responses array
     } else {
-      setFormCompleted(true); // If it's the last field, set form as completed
-      await submitForm(); // Automatically submit the form once it's completed
+      setCurrentFieldIndex(currentFieldIndex + 1); // Move to the next field
     }
   };
 
   // Submit form data to backend
-  const submitForm = async () => {
+  const submitForm = async (finalResponses) => {
     try {
       const response = await axios.post('http://localhost:5000/api/forms/save-response', {
         formId: form._id,
-        responses: responses,
+        responses: finalResponses, // Submit the final set of responses
       });
 
       if (response.data.success) {
