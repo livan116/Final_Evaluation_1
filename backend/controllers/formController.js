@@ -187,6 +187,9 @@ exports.getFormsByFolderId = async (req, res) => {
   
       // Get the form from the reference
       const form = shareableLink.form;
+
+      form.viewCount = (form.viewCount || 0) + 1;
+      await form.save();
   
       // Sort the fields by sequence to maintain correct order
       const sortedFields = form.fields.sort((a, b) => a.sequence - b.sequence);
@@ -218,6 +221,15 @@ exports.saveFormResponse = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Form not found' });
     }
 
+    // If this is the first response (form is being started), increment the 'started' count
+    if (responses && responses.length > 0) {
+      // Check if it's the first response to trigger the 'started' increment
+      if (form.started === 0) {
+        form.started += 1;
+        await form.save();
+      }
+    }
+
     // Save the form responses
     const formResponse = new FormResponse({
       form: formId,
@@ -226,11 +238,16 @@ exports.saveFormResponse = async (req, res) => {
 
     await formResponse.save();
 
+    // Increment 'submitted' only if all responses are filled (form is completely submitted)
+    const allResponsesSubmitted = responses.every(response => response.value !== undefined && response.value !== null);
+    if (allResponsesSubmitted) {
+      form.submitted += 1;
+      await form.save();
+    }
+
     res.json({ success: true, message: 'Form responses saved successfully' });
   } catch (error) {
     console.error('Error saving form responses:', error);
     res.status(500).json({ success: false, message: 'Server error' });
   }
-
 };
-
