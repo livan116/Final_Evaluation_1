@@ -7,6 +7,10 @@ import tri1 from "../../assets/Polygon_1.png";
 import tri2 from "../../assets/Polygon_2.png";
 import toast from "react-hot-toast";
 
+const apiUrl = import.meta.env.VITE_API_URI;
+
+// console.log(process.env.VITE_API_URI);
+
 const Register = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -26,10 +30,10 @@ const Register = () => {
     try {
       // Send the form data to the backend
       const response = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        `${apiUrl}/api/auth/register`,
         formData
       );
-      console.log(response);
+      console.log(apiUrl);
       if (response.status === 201) {
         toast.success(response.data.message, {
           duration: 4000,
