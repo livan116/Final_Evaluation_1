@@ -2,11 +2,18 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import style from "./workSpace.module.css";
 import NavHead from "../NavHead/NavHead";
+import Responses from "../Responses/Responses";
+import { useParams } from "react-router-dom";
 const WorkSpace = () => {
   const [fields, setFields] = useState([]);
+  const [formResponse, setFormResponse] = useState([]);
   const [formName, setFormName] = useState("");
-  const formId = localStorage.getItem("formId"); // Get formId from localStorage or from URL parameters
+  const [fId,setformId] = useState(null);
 
+  const [workBool,setWorkBool] = useState(true);
+  // const formId = localStorage.getItem("formId"); // Get formId from localStorage or from URL parameters
+  // console.log(formResponse)
+  const {folderId,formId} = useParams();
   // Fetch form data when the component mounts
   useEffect(() => {
     const fetchFormData = async () => {
@@ -20,10 +27,12 @@ const WorkSpace = () => {
               },
             }
           );
+          console.log("Form data:", response.data.form);
           if (response.data.success) {
             const form = response.data.form;
             setFormName(form.name); // Set form name
             setFields(form.fields); // Set the form fields (bubbles and inputs)
+            setFormResponse([response.data.form])
           }
         }
       } catch (error) {
@@ -34,17 +43,17 @@ const WorkSpace = () => {
     fetchFormData();
   }, [formId]); // Only fetch data once when formId changes or component mounts
 
+  
+
  // Get formId from localStorage or from URL parameters
   const saveForm = async () => {
-    console.log("Form Name:", formName);
-    console.log("Form Name:", formId);
     try {
-      const selectedFolderId = localStorage.getItem("folderId"); // Retrieve the folder ID from localStorage
-      
+      // const selectedFolderId = localStorage.getItem("folderId"); // Retrieve the folder ID from localStorage
+      // console.log("Folder ID:", folderId);
       const response = await axios.post(
         `http://localhost:5000/api/folders/create-form-bot`, // PUT request to update the form by formId
         {
-          folderId:selectedFolderId,
+          folderId:folderId,
           formBotName: formName, // Form name
           fields: fields, // Updated fields (contains both bubbles and inputs)
         },
@@ -52,7 +61,9 @@ const WorkSpace = () => {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      localStorage.setItem("formId", response.data.formBot._id);
+      // localStorage.setItem("formId", response.data.formBot._id);
+      console.log("Form saved:", response.data.formBot._id);
+      setformId(response.data.formBot._id);
       console.log("Form saved:", response.data.formBot._id);
       if (response.data.success) {
         alert("Form saved successfully!");
@@ -106,17 +117,21 @@ const WorkSpace = () => {
   // Handle generating a shareable link
   const shareForm = async () => {
     console.log("hello");
-    const id = localStorage.getItem("formId");
+    console.log(fId);
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/forms/share/${id}`,
+        `http://localhost:5000/api/forms/share/${fId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
       console.log("Form link:", response.data.linkId);
-      localStorage.setItem("formId",formId);
+      // localStorage.setItem("formId",formId);
       localStorage.setItem("linkId", response.data.linkId);
+      const link = `http://localhost:5173/formbot/${response.data.linkId}`;
+      navigator.clipboard.writeText(link);
+      alert('Link copied to clipboard: ' + link);
+
       alert("Form link generated!");
     } catch (error) {
       console.error("Error sharing form:", error);
@@ -138,7 +153,7 @@ const WorkSpace = () => {
       </div>
       <div className={style.flowContainer}>
         <button className={style.flow}>Flow</button>
-        <button className={style.response}>Response</button>
+        <button className={style.response} onClick={()=>setWorkBool(false)}>Response</button>
       </div>
       <div className={style.saveConatiner}>
         <label className={style.switch}>
@@ -157,7 +172,7 @@ const WorkSpace = () => {
       <hr />
 
       {/* Left Sidebar for Bubbles and Input Fields */}
-      <div className={style.workspaceSection}>
+      {workBool ? (<div className={style.workspaceSection}>
       <div className={style.sidebar}>
         <div className={style.bubbles}>
           <h3>Bubbles</h3>
@@ -212,7 +227,7 @@ const WorkSpace = () => {
           </div>
         ))}
       </div>
-      </div>
+      </div>):(<Responses forms={formResponse}/>)}
     </div>
   );
 

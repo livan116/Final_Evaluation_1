@@ -22,6 +22,6 @@ formResponseSchema.pre('save', function(next) {
   next();
 });
 
-const FormResponse = mongoose.model('FormResponse', formResponseSchema);
+module.exports = mongoose.model('FormResponse', formResponseSchema);
 
-module.exports = FormResponse;
+

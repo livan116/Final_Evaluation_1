@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const ChatbotForm = () => {
@@ -8,13 +9,15 @@ const ChatbotForm = () => {
   const [formCompleted, setFormCompleted] = useState(false);
   const [currentValue, setCurrentValue] = useState(''); // To store current input value
 
-  const linkId = localStorage.getItem('linkId'); // Get linkId from localStorage
+  const {linkId} =  useParams(); 
+  const id = localStorage.getItem('linkId'); // Get linkId from localStorage
 
   useEffect(() => {
+    
     // Fetch form data from the backend using Axios
     const fetchFormData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/forms/share/${linkId}`);
+        const response = await axios.get(`http://localhost:5000/api/forms/share/${id}`);
         if (response.data.success) {
           setForm(response.data.form);
         } else {
@@ -26,7 +29,7 @@ const ChatbotForm = () => {
     };
 
     fetchFormData();
-  }, [linkId]);
+  }, [id]);
 
   // Function to handle bubble field progression
   const handleBubbleResponse = () => {

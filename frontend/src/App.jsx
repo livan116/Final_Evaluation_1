@@ -22,9 +22,9 @@ const App = () => {
           <Route path='/login' element ={<Login/>}/>
           <Route path='/form-dashboard' element ={<FormDashboard/>}/>
           <Route path='/settings' element={<Settings/>}/>
-          <Route path='/workspace' element={<WorkSpace/>}/>
+          <Route path='/workspace/:folderId/:formId' element={<WorkSpace/>}/>
           <Route path='/dashboard' element={<FormBuilder/>}/>
-          <Route path='/formbot' element={<ChatbotPage/>}/>
+          <Route path='/formbot/:linkId' element={<ChatbotPage/>}/>
         </Routes>
       </BrowserRouter>
     </>

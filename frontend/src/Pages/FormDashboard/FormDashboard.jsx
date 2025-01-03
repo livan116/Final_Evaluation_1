@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import style from "./FormDashboard.module.css";
-import {useNavigate} from "react-router-dom";
+import { toast } from "react-hot-toast";
+import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 
 const FormDashboard = () => {
@@ -10,28 +11,35 @@ const FormDashboard = () => {
   const [bool4, setBool4] = useState(false);
 
   const [ind, setInd] = useState(null);
+    const [username,setUsername] = useState("");
   const [forms, setForms] = useState([]);
   const [name, setName] = useState();
+  const [fId,setFolderId] = useState(null);
+  const [formid,setFormid] = useState(null);
   const [folderName, setFolderName] = useState([]);
 
-  const folderId = localStorage.getItem("folderId");
-  const formId = localStorage.getItem("formId");
+  // const folderId = localStorage.getItem("folderId");
+  // const formId = localStorage.getItem("formId");
+  let {folderId,formId} = useParams()
+  // console.log(id)
   const navigate = useNavigate();
 
-  console.log(folderId);
+  // console.log(folderId);
 
   const handleFolderName = (e) => {
     setName(e.target.value);
   };
 
   const handleConfirm = (index) => {
-    localStorage.setItem("folderId", index);
+    // localStorage.setItem("folderId", index);
+    setFolderId(index);
     setInd(index);
     setBool3(!bool3);
   };
 
   const handleFormConfirm = (index) => {
-    localStorage.setItem("formId", index);
+    // localStorage.setItem("formId", index);
+    setFormid(index);
     setInd(index);
     setBool4(!bool4);
   };
@@ -44,13 +52,13 @@ const FormDashboard = () => {
     e.preventDefault();
     try {
       await axios.delete(
-        `http://localhost:5000/api/folders/folder/${folderId}`,
+        `http://localhost:5000/api/folders/folder/${fId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
       // Remove deleted folder from the list
-      setFolderName(folderName.filter((folder) => folder._id !== folderId));
+      setFolderName(folderName.filter((folder) => folder._id !== fId));
     } catch (error) {
       console.error("Error deleting folder:", error);
     }
@@ -102,6 +110,7 @@ const FormDashboard = () => {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       }
     );
+    console.log("Folders:", response.data.output); // Log the fetched folders
     setFolderName(response.data.output); // Update the state with fetched folders
   } catch (error) {
     console.error("Error fetching folders:", error);
@@ -110,7 +119,27 @@ const FormDashboard = () => {
 
 useEffect(() => {
   fetchFolders(); // Fetch folders when component mounts
+  fetchUser();
 }, []);
+
+const fetchUser = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:5000/api/auth/getUser",
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    console.log(response.data);
+    const user = response.data.user;
+    setUsername(user.name);
+  }
+  catch (error) {
+    console.error("Failed to fetch user data", error);
+  }
+}
 
 
   // console.log(fetchFolders())
@@ -118,9 +147,10 @@ useEffect(() => {
   //get fomrs
 
   const handlegetForms = async (id) => {
-    console.log(id);
-    localStorage.setItem("folderId", id);
-    console.log(localStorage.getItem("folderId"));
+    setFolderId(id);
+    console.log(folderId);
+    // localStorage.setItem("folderId", id);
+    // console.log(localStorage.getItem("folderId"));
     try {
       const response = await axios.get(
         `http://localhost:5000/api/forms/${id}/forms`,
@@ -143,37 +173,60 @@ useEffect(() => {
 
   const handleDeleteForm = async (e) => {
     e.preventDefault();
+
+    console.log("delete form");
     try {
       await axios.delete(
-        `http://localhost:5000/api/forms/form/${formId}`,
+        `http://localhost:5000/api/forms/form/${formid}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
       // Remove deleted form from the list
-      setForms(forms.filter((form) => form._id !== formId));
+      setForms(forms.filter((form) => form._id !== formid));
+      setBool4(!bool4)
     } catch (error) {
       console.error("Error deleting form:", error);
     }
   };
 
-  const handleFormId = (id) => {
-    localStorage.setItem("formId", id);
-    navigate(`/workspace`);
+  const handleFormId = (formId) => {
+    // localStorage.setItem("formId", id);
+    navigate(`/workspace/${fId}/${formId}`);
   };
 
   const handleFormCreate = async () => {
-    localStorage.setItem("folderId", folderId);
-    navigate("/workspace")
+    console.log(folderId)
+    // localStorage.setItem("folderId", folderId);
+    navigate(`/workspace/${fId}/${formId}`)
   }
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("folderId");
+    localStorage.removeItem("formId");
+    navigate("/login");
+    toast.success("Logout successful", {
+      position: "top-right",
+    });
+  };
+
+  const handleSetting = (e) => {
+    const option = e.target.value;
+    if (option === "settings") {
+      navigate(`/${option}`);
+    } else {
+      logout();
+    }
+  };
 
   return (
     <div className={style.FormDashboard}>
       <div className={style.navbar}>
         <div className={style.nav}>
           <div className={style.workName}>
-            <select name="workspaceName" id="workspaceName">
-              <option value="">Livan Kumar worksapce</option>
+            <select name="workspaceName" id="workspaceName" onChange={handleSetting}>
+              <option value="">{username}'s worksapce</option>
               <option value="settings">settings</option>
               <option value="logout" className={style.logout}>
                 Logout
@@ -225,7 +278,9 @@ useEffect(() => {
                   {item.name}
                   <i
                     className="fa-solid fa-trash-can"
-                    onClick={() => handleFormConfirm(item._id)}
+
+                    onClick={(e) =>{ handleFormConfirm(item._id)
+                      e.stopPropagation()}}
                   ></i>
                 </button>
               ))}

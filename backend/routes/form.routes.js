@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getFormsByFolderId,updateFormById,deleteFormById, getFormById,shareForm ,getSharedForm, saveFormResponse} = require('../controllers/formController');
+const { getFormsByFolderId,updateFormById,deleteFormById, getFormById,shareForm ,getSharedForm, saveFormResponse,getFormResponses} = require('../controllers/formController');
 
 router.get('/:folderId/forms', getFormsByFolderId);
 
@@ -15,6 +15,8 @@ router.post('/share/:formId',shareForm);
 router.get('/share/:linkId', getSharedForm);
 
 router.post('/save-response', saveFormResponse);
+
+router.get('/resonses/:formId', getFormResponses);
 
 
 module.exports = router;

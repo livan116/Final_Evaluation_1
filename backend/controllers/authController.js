@@ -74,3 +74,78 @@ exports.loginUser = async (req, res) => {
     }
 };
 
+
+exports.getUser = async (req, res) => {
+  try {
+    const userId = req.user.id; // Assumes you've added middleware to decode the token
+    const user = await User.findById(userId).select("-password"); // Exclude the password
+    if (!user) {
+      return res.status(404).json({ user, message: "User not found" });
+    }
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+exports.updateUser = async (req, res) => {
+  const { userName, email, oldPassword, newPassword } = req.body;
+  const userId = req.user.id; // Extracted from token via middleware
+  console.log(userId);
+
+  try {
+    // Fetch the user
+    const user = await User.findById(userId);
+    console.log(user);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    // Update username if provided
+    if (userName && userName !== user.name) {
+      user.name = userName;
+    }
+
+    // Update email if provided and different
+    if (email && email !== user.email) {
+      const existingEmail = await User.findOne({ email });
+      if (existingEmail) {
+        return res
+          .status(400)
+          .json({ success: false, message: "Email already in use" });
+      }
+      user.email = email;
+    }
+
+    // Update password if both old and new passwords are provided
+    if (oldPassword && newPassword) {
+      const isMatch = await bcrypt.compare(oldPassword, user.password);
+      if (!isMatch) {
+        return res
+          .status(400)
+          .json({ success: false, message: "Old password is incorrect" });
+      }
+      if (oldPassword === newPassword) {
+        return res.status(400).json({
+          success: false,
+          message: "New password cannot be the same as the old password",
+        });
+      }
+
+      const salt = await bcrypt.genSalt(10);
+      user.password = newPassword;
+    }
+
+    // Save changes
+    await user.save();
+
+    res
+      .status(200)
+      .json({ success: true, message: "User updated successfully" });
+  } catch (error) {
+    console.error("Error updating user:", error.message);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
