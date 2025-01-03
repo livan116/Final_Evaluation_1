@@ -1,68 +1,91 @@
 import React from "react";
 import style from "./Response.module.css";
-
 import { Chart } from "react-google-charts";
 
-export const data = [
-  ["Task", "Hours per Day"],
-  ["Work", 11],
-  ["Eat", 2],
-  ["Commute", 2],
-  ["Watch TV", 2],
-  ["Sleep", 7], // CSS-style declaration
-];
-
+// Options for Google Chart
 export const options = {
-  title: "My Daily Activities",
+  title: "Completion Rate",
   pieHole: 0.4,
   is3D: false,
+  legend: { position: "none" },
 };
 
+// Responses component
 const Responses = ({ forms }) => {
-  console.log(forms);
+  // Check if forms array is available
+  if (!forms || forms.length === 0) {
+    return <p>No form data available.</p>;
+  }
+
+  // Extract the first form for view, start, and submission counts
+  const form = forms[0];
+  const { viewCount, startedCount, submittedCount, fields } = form;
+
+  // Calculate completion rate: (submitted / views) * 100
+  const completionRate =
+    viewCount > 0 ? ((submittedCount / viewCount) * 100).toFixed(2) : 0;
+
+  // Prepare data for pie chart
+  const chartData = [
+    ["Task", "Count"],
+    ["Completed", submittedCount],
+    ["Not Completed", viewCount - submittedCount],
+  ];
+  console.log(forms)
   return (
     <div>
       <div className={style.container}>
-        {forms.map((item) => (
-          <div className="div" key={item._id}>
-            <div className={style.response}>
-              <h3>views</h3>
-              <p>{item.viewCount}</p>
-            </div>
-            <div className={style.response}>
-              <h3>started</h3>
-              <p>{item.startedCount}</p>
-            </div>
-            <div className={style.response}>
-              <h3>submitted</h3>
-              <p>{item.submittedCount}</p>
-            </div>
-            <table>
-            {
-                item.fields.map((field) => {
-                    return (
-                    <tr key={field._id}>
-                        <th>{field.label}</th>
-                    </tr>
-                    );
-                })
-            }
-        </table>
+        <div className={style.response}>
+          <h3>Views</h3>
+          <p>{viewCount}</p>
+        </div>
+        <div className={style.response}>
+          <h3>Starts</h3>
+          <p>{startedCount}</p>
+        </div>
+        <div className={style.response}>
+          <h3>Submissions</h3>
+          <p>{submittedCount}</p>
+        </div>
+
+        <div className={style.chartSection}>
+          <Chart
+            chartType="PieChart"
+            width="400px"
+            height="300px"
+            data={chartData}
+            options={options}
+          />
+          <div className={style.completionRate}>
+            <h3>Completion rate</h3>
+            <p>{completionRate}%</p>
           </div>
-        ))}
+        </div>
       </div>
 
-      <div className="table">
-        
+      <div className={style.tableContainer}>
+        <h3>Responses Table</h3>
+        <table className={style.responsesTable}>
+          <thead>
+            <tr>
+              <th>Submitted at</th>
+              {fields.map((field) => (
+                <th key={field._id}>{field.label}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {/* Assuming form has responses stored inside an array `form.responses` */}
+            <tr>
+            {form.fields.map((response) => (
+
+              
+                <td>{response.value}</td>
+              
+            ))}</tr>
+          </tbody>
+        </table>
       </div>
-      <Chart
-      chartType="PieChart"
-      width="100%"
-      height="400px"
-      data={data}
-      options={options}
-    />
-      <div className={style.responsesData}></div>
     </div>
   );
 };

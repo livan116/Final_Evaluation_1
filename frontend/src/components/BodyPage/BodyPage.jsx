@@ -9,8 +9,10 @@ import tri from "../../assets/tri3.png";
 import UU from "../../assets/UU.png";
 import orange from "../../assets/orangeBg.png";
 import blue from "../../assets/blurBlur.png";
+import {useNavigate} from "react-router-dom"  
 
 const BodyPage = () => {
+  const navigate = useNavigate()  
   return (
     <div className={style.bodyContainer}>
       <div className={style.flexContainer}>
@@ -27,7 +29,7 @@ const BodyPage = () => {
             anywhere on your web/mobile apps and start collecting results like
             magic.
           </p>
-          <button>Create a FormBot for free</button>
+          <button onClick={()=>navigate('/register')}>Create a FormBot for free</button>
         </div>
         <div className={style.rightImg}>
           <img src={UU} alt="" />

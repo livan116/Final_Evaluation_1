@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+
 import style from "./workSpace.module.css";
 import { useNavigate } from "react-router-dom";
 import NavHead from "../NavHead/NavHead";
@@ -49,31 +50,61 @@ const WorkSpace = () => {
 
  // Get formId from localStorage or from URL parameters
   const saveForm = async () => {
-    try {
-      // const selectedFolderId = localStorage.getItem("folderId"); // Retrieve the folder ID from localStorage
-      // console.log("Folder ID:", folderId);
-      const response = await axios.post(
-        `http://localhost:5000/api/folders/create-form-bot`, // PUT request to update the form by formId
-        {
-          folderId:folderId,
-          formBotName: formName, // Form name
-          fields: fields, // Updated fields (contains both bubbles and inputs)
-        },
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    console.log("Folder ID:", formId);
+    if (!formId) {
+      updateForm(); // Update the form if formId is present
+    } else {
+      try {
+        // const selectedFolderId = localStorage.getItem("folderId"); // Retrieve the folder ID from localStorage
+        // console.log("Folder ID:", folderId);
+        const response = await axios.post(
+          `http://localhost:5000/api/folders/create-form-bot`, // PUT request to update the form by formId
+          {
+            folderId:folderId,
+            formBotName: formName, // Form name
+            fields: fields, // Updated fields (contains both bubbles and inputs)
+          },
+          {
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          }
+        );
+        // localStorage.setItem("formId", response.data.formBot._id);
+        console.log("Form saved:", response.data.formBot._id);
+        setformId(response.data.formBot._id);
+        console.log("Form saved:", response.data.formBot._id);
+        if (response.data.success) {
+          alert("Form saved successfully!");
         }
-      );
-      // localStorage.setItem("formId", response.data.formBot._id);
-      console.log("Form saved:", response.data.formBot._id);
-      setformId(response.data.formBot._id);
-      console.log("Form saved:", response.data.formBot._id);
-      if (response.data.success) {
-        alert("Form saved successfully!");
+      } catch (error) {
+        console.error("Error updating form:", error);
       }
-    } catch (error) {
-      console.error("Error updating form:", error);
     }
   };
+
+  // Handle saving the updated form data
+  const updateForm = async () => {
+    try {
+        const response = await axios.put(
+            `http://localhost:5000/api/forms/form/${formId}`, // PUT request to update the form by formId
+            {
+                folderId: folderId, // folder where formbot should be update
+                name : formName, // Form name
+                fields: fields, // Updated fields (contains both bubbles and inputs)
+            },
+            {
+                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+            }
+        );
+
+        if (response.data.success) {
+            alert("Form updated successfully!");
+        }
+    }
+    catch (error) {
+        console.error("Error updating form:", error);
+        alert("Error updating form");
+    }
+};
 
   const handleChange = (e) => {
     const name = e.target.value;

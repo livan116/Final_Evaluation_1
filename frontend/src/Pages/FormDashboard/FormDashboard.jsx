@@ -366,7 +366,7 @@ const fetchUser = async () => {
                     Done
                   </button>
                   <div className={style.div}>|</div>
-                  <button className={style.cancelBtn}>Cancel</button>
+                  <button className={style.cancelBtn} onClick={()=>setBool2(!bool2)}>Cancel</button>
                 </div>
               </form>
             </div>
