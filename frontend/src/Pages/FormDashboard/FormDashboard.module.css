@@ -1,7 +1,17 @@
+[data-theme="light"]{
+  --bg-color:#ffffff;
+  --text-color:#000000;
+}
+
+[data-theme="dark"]{
+  --bg-color : linear-gradient(#121212, #171923, #171923);
+  --text-color:#FFFFFFEB;
+}
+
+
 .FormDashboard{
-    background: linear-gradient(
-        #121212,#171923,#171923
-    );
+    background: var(--bg-color);
+    color: var(--text-color);
     width: 100vw;
     /* overflow: scroll; */
     height: 100vh;
@@ -34,7 +44,7 @@
 
 .workName select{
     background-color: transparent;
-    color: #fff;
+    color:var(--text-color);
     padding: 10px 20px;
     border-radius: 10px;
 }
@@ -54,6 +64,10 @@ option{
     justify-content: end;
     gap: 100px;
   
+}
+
+.navend label{
+    color: var(--text-color);
 }
 .navend button{
     margin-right: 70px;
@@ -111,7 +125,8 @@ option{
     -webkit-transition: .4s;
     transition: .4s;
   }
-  
+
+ 
   input:checked + .slider {
     background-color: #2196F3;
   }
@@ -141,9 +156,7 @@ option{
     width: 100vw;
     max-width: 100%;
     position: absolute;
-    background: linear-gradient(
-      #121212,#171923,#171923
-  );
+    background: var(--bg-color);
   }
 
   .createFolder{
@@ -159,7 +172,7 @@ option{
 
   .createFolderBtn{
     color: #fff;
-    /* background-color: red;   */
+    flex-wrap: wrap;
     display: flex;
     gap: 20px;
     align-items: center;
@@ -180,14 +193,13 @@ option{
   .newBtn i{
     color: #fff;
     margin-right: 5px;
-    /* background-color: transparent; */
   }
 
   .createTypeBot{
     display: flex;
     align-items: center;
     gap: 25px;
-    /* margin */
+    flex-wrap: wrap;
     
   }
 
@@ -205,8 +217,9 @@ option{
   }
 
   .formNameBtn{
-    background-color: #FFFFFF80;
+    background-color: #ccccccad;
     height: 240px;
+    color:var(--text-color);
     outline: none;
     border: none;
     width: 200px;
@@ -259,13 +272,7 @@ option{
     width: 60vw;
     border-radius: 20px;
     padding: 10px 30px 70px 30px;
-    /* display: flex; */
-    /* flex-direction: column; */
-    /* max-width: 100%; */
 }
-/* .shareForm label{
-    display: flex;
-} */
 
 .shareText{
   font-size: 2rem;
@@ -274,6 +281,7 @@ option{
 .inputShare{
   border: none;
   background-color: #1f1f1f;
+  color: #fff;
 }
 
 .editText select{

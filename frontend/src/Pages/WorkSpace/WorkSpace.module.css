@@ -1,5 +1,19 @@
+[data-theme="light"]{
+  --bg-color:#ffffff;
+  --text-color:#000000;
+  --flag:#1A5FFF;
+}
+
+[data-theme="dark"]{
+  --bg-color : linear-gradient(#121212, #171923, #171923);
+  --text-color:#FFFFFFEB;
+  --flag:##FFFFFFEB;
+
+}
+
 .workspaceContainer{
-    background-color: #1F1F23;
+    background: var(--bg-color);
+
     width: 100vw;
     /* overflow: scroll; */
     /* height: 100vh; */
@@ -12,7 +26,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #18181B;
+    background: var(--bg-color);
 }
 
 /* toggle button */
@@ -88,6 +102,10 @@
     align-items: center;
   }
 
+  .saveConatiner label{
+    color: var(--text-color);
+  }
+
   .formName{
     display: flex;
     align-items: center;
@@ -98,7 +116,10 @@
   .formName input{
     border: none;
     border-radius: 5px;
-    background-color: #37373E;
+    background: var(--bg-color);
+    border: 1px solid ;
+    border: 1px solid rgb(85, 85, 85);
+    color: var(--text-color);
     padding: 0px 0px 0px 20px;
   }
 
@@ -141,7 +162,7 @@
   }
 
   .response{
-    color: #fff;
+    color: var(--text-color);
     background-color: transparent;
     border: none;
     outline: none;
@@ -159,22 +180,36 @@
   }
 
 .startForm{
-    background-color: red;
+  margin-top: 50px;
     padding: 15px 20px;
     height: 50px;
     width: 280px;
     border-radius: 10px;
-    border: none;
     outline: none;
-    color: #fff;
+    border: 1px solid rgb(85, 85, 85);
+    
+}
+
+.startForm i{
+  margin-right: 10px;
+  color: var(--flag);
+}
+
+.startForm label{
+  background: var(--bg-color);
+  color: var(--text-color);
+ 
+
+  
 }
 
 .sidebar{
     width: 23vw;
     min-height: 100vh;
-    height: 100%;
-    background-color: #18181B;
+    /* height: 100%; */
+    background-color: var(--bg-color);
     display: flex;
+    border: 1px solid rgb(85, 85, 85);
     flex-direction: column;
     /* justify-content: space-between; */
     align-items: center;
@@ -187,7 +222,7 @@
 .bubbles{
     display: flex;
     flex-direction: column;
-    color: #fff;
+    color: var(--text-color);
 }
 
 .bubbleButtons{
@@ -195,23 +230,24 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+
     
 }
 .bubbleButtons button{
-    background-color: #1F1F23;
+  background: var(--bg-color);
+  border: 1px solid rgb(85, 85, 85);
     padding: 10px 20px;
     height: 39px;
     width: 149px;
     border-radius: 10px;
-    border: none;
     outline: none;
-    color: #fff;
+    color: var(--text-color);
 }
 
 .inputFields{
     display: flex;
     flex-direction: column;
-    color: #fff;
+    color: var(--text-color);
 }
 
 .inputButtons{
@@ -222,14 +258,15 @@
 }
 
 .inputButtons button{
-    background-color: #1F1F23;
+  background: var(--bg-color);
     padding: 10px 20px;
     height: 39px;
     width: 149px;
     border-radius: 10px;
-    border: none;
+    /* border: none; */
+    border: 1px solid rgb(85, 85, 85);
     outline: none;
-    color: #fff;
+    color: var(--text-color);
 }
 
 .workspaceSection{
@@ -240,6 +277,7 @@
 
 .formWorkspace{
     display: flex;
+    color: var(--text-color);
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -248,7 +286,8 @@
 }
 
 .formField{
-    background-color: #18181B;
+    background: var(--bg-color);
+    color: var(--text-color);
     display: flex;
     position: relative;
     flex-direction: column;
@@ -257,24 +296,31 @@
     /* gap: 8px; */
     margin: 20px 0px;
     width: 18vw;
+    border: 1px solid rgb(85, 85, 85);
     padding: 10px 10px 20px 10px;
     border-radius: 10px;
 }
 
+.formField label{
+  color: var(--text-color);
+}
+
 .deleteField{
     position: absolute;
-    top: -1vh;
+    top: -1.5vh;
     left: 17vw;
 }
 
-
+.deleteField i{
+  color: red;
+}
 
 input{
-    background-color: #1F1F23;
+    background:var(--bg-color);
     width: 100%;
-    color: #C0C0C04F;
+    color: var(--text-color);
     outline: none;
-    border: none;
+    border: 1px solid rgb(85, 85, 85);
     border-radius: 10px;
     /* margin-bottom: 10px; */
 }

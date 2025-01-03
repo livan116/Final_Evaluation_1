@@ -1,0 +1,52 @@
+
+.container{
+    /* background-color: red; */
+    
+}
+
+.chatContainer{
+    display: flex;
+    flex-direction: column;
+    margin:50px 100px; 
+    height: 85vh;
+}
+
+.chatContainer h2{
+    text-align: center;
+}
+.bubbleStyle{
+    background-color: rgba(241, 241, 241, 0.814);
+    /* color: #fff; */
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    /* text-align: left; */
+}
+.inputStyle{
+    background-color: #FF8E21;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+
+.inputDiv{
+    text-align: right;
+}
+
+.bubbleDiv{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chatBox{
+    /* background-color: red; */
+    height: 80vh;
+}
+
+.inputSend{
+    display: flex;
+}

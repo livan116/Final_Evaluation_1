@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import style from "./workSpace.module.css";
+import { useNavigate } from "react-router-dom";
 import NavHead from "../NavHead/NavHead";
+import { useTheme } from "../../Context/ThemeContext";
 import Responses from "../Responses/Responses";
 import { useParams } from "react-router-dom";
 const WorkSpace = () => {
@@ -11,9 +13,9 @@ const WorkSpace = () => {
   const [fId,setformId] = useState(null);
 
   const [workBool,setWorkBool] = useState(true);
-  // const formId = localStorage.getItem("formId"); // Get formId from localStorage or from URL parameters
-  // console.log(formResponse)
   const {folderId,formId} = useParams();
+  const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
   // Fetch form data when the component mounts
   useEffect(() => {
     const fetchFormData = async () => {
@@ -109,9 +111,6 @@ const WorkSpace = () => {
     updatedFields[index].value = newValue; // Update the value in state
     setFields(updatedFields);
   };
-
-  // Handle saving the form data
-  // Handle saving the updated form data
   
 
   // Handle generating a shareable link
@@ -120,7 +119,7 @@ const WorkSpace = () => {
     console.log(fId);
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/forms/share/${fId}`,
+        `http://localhost:5000/api/forms/share/${formId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -152,20 +151,20 @@ const WorkSpace = () => {
         <input type="text" placeholder="Enter Form Name" value={formName} onChange={handleChange}/>
       </div>
       <div className={style.flowContainer}>
-        <button className={style.flow}>Flow</button>
+        <button className={style.flow} onClick={()=>setWorkBool(true)}>Flow</button>
         <button className={style.response} onClick={()=>setWorkBool(false)}>Response</button>
       </div>
       <div className={style.saveConatiner}>
         <label className={style.switch}>
           Light
-          <input type="checkbox" />
+          <input type="checkbox" onChange={toggleTheme} checked={theme == "dark"}/>
           <span className={`${style.slider} ${style.round}`}></span>
           Dark
         </label>
         <div className={style.navbtns}>
         <button className={style.shareBtn} onClick={shareForm}>share</button>
         <button className={style.saveBtn} onClick={saveForm}>save</button>
-        <button className={style.crossBtn}>X</button>
+        <button className={style.crossBtn} onClick={()=>navigate('/form-dashboard')}>X</button>
         </div>
       </div>
     </div>
@@ -201,11 +200,15 @@ const WorkSpace = () => {
       {/* Form Workspace where bubbles and input fields are displayed */}
       <div className={style.formWorkspace}>
         <div className={style.startForm}>
-          <label htmlFor="">start</label>
+        <i className="fa-solid fa-flag"></i>
+          <label>start</label>
         </div>
         {fields.map((field, index) => (
           <div key={index} className={style.formField}>
-          <div className={style.deleteField}> <button onClick={() => deleteField(index)}>Delete</button></div>
+          <div className={style.deleteField}> <i
+                    className="fa-solid fa-trash-can"
+                    onClick={() => deleteField(index)}
+                  ></i></div>
             <label>{field.label}</label>
             {field.type === "input" ? (
               <input

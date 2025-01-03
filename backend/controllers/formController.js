@@ -211,6 +211,7 @@ exports.getSharedForm = async (req, res) => {
 exports.saveFormResponse = async (req, res) => {
   try {
     const { formId, responses } = req.body;
+   
 
     // Check if form exists
     const form = await FormBot.findById(formId);
@@ -219,14 +220,13 @@ exports.saveFormResponse = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Form not found" });
     }
-
+    console.log(responses.length);
     // If this is the first response (form is being started), increment the 'started' count
     if (responses && responses.length > 0) {
       // Check if it's the first response to trigger the 'started' increment
-      if (form.started === 0) {
-        form.started += 1;
+        form.startedCount += 1;
         await form.save();
-      }
+      
     }
 
     // Save the form responses
@@ -237,12 +237,14 @@ exports.saveFormResponse = async (req, res) => {
 
     await formResponse.save();
 
+    console.log(responses)
     // Increment 'submitted' only if all responses are filled (form is completely submitted)
     const allResponsesSubmitted = responses.every(
       (response) => response.value !== undefined && response.value !== null
     );
-    if (allResponsesSubmitted) {
-      form.submitted += 1;
+    console.log(allResponsesSubmitted);
+    if (!allResponsesSubmitted) {
+      form.submittedCount += 1;
       await form.save();
     }
 

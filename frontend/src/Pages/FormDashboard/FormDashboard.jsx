@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import style from "./FormDashboard.module.css";
 import { toast } from "react-hot-toast";
+import { useTheme } from "../../Context/ThemeContext";
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 
@@ -18,13 +19,11 @@ const FormDashboard = () => {
   const [formid,setFormid] = useState(null);
   const [folderName, setFolderName] = useState([]);
 
-  // const folderId = localStorage.getItem("folderId");
-  // const formId = localStorage.getItem("formId");
+ 
   let {folderId,formId} = useParams()
-  // console.log(id)
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
-  // console.log(folderId);
 
   const handleFolderName = (e) => {
     setName(e.target.value);
@@ -236,7 +235,7 @@ const fetchUser = async () => {
           <div className={style.navend}>
             <label className={style.switch}>
               Light
-              <input type="checkbox" />
+              <input type="checkbox" onChange={toggleTheme} checked={theme == "dark"}/>
               <span className={`${style.slider} ${style.round}`}></span>
               Dark
             </label>
