@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import style from "./workSpace.module.css";
+import style from "./WorkSpace.module.css";
 import { useNavigate } from "react-router-dom";
 import NavHead from "../NavHead/NavHead";
 import { useTheme } from "../../Context/ThemeContext";
