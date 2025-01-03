@@ -3,6 +3,7 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import { toast } from "react-hot-toast";
 import styles from "./Settings.module.css"; // Importing the CSS module
+const apiUrl = import.meta.env.VITE_API_URI;
 
 const Settings = () => {
   const [showEmail, setShowEmail] = useState(false);
@@ -25,7 +26,7 @@ const Settings = () => {
   const fetchUser = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/auth/getUser",
+        `${apiUrl}/api/auth/getUser`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -70,7 +71,7 @@ const Settings = () => {
 
     try {
       const response = await axios.put(
-        "http://localhost:5000/api/auth/updateUser",
+        `${apiUrl}api/auth/updateUser`,
         updatedFields,
         {
           headers: {

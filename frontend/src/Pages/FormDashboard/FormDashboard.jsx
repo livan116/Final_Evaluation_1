@@ -5,6 +5,8 @@ import { useTheme } from "../../Context/ThemeContext";
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 
+const apiUrl = import.meta.env.VITE_API_URI;
+
 const FormDashboard = () => {
   const [bool, setBool] = useState(false);
   const [bool2, setBool2] = useState(false);
@@ -51,7 +53,7 @@ const FormDashboard = () => {
     e.preventDefault();
     try {
       await axios.delete(
-        `http://localhost:5000/api/folders/folder/${fId}`,
+        `${apiUrl}/api/folders/folder/${fId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -82,7 +84,7 @@ const FormDashboard = () => {
   
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/folders/create-folder",
+        `${apiUrl}/api/folders/create-folder`,
         { name: name },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -104,7 +106,7 @@ const FormDashboard = () => {
   const fetchFolders = async () => {
   try {
     const response = await axios.get(
-      "http://localhost:5000/api/folders/folders/:id",
+      `${apiUrl}/api/folders/folders/:id`,
       {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       }
@@ -124,7 +126,7 @@ useEffect(() => {
 const fetchUser = async () => {
   try {
     const response = await axios.get(
-      "http://localhost:5000/api/auth/getUser",
+      `${apiUrl}/api/auth/getUser`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -152,7 +154,7 @@ const fetchUser = async () => {
     // console.log(localStorage.getItem("folderId"));
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/forms/${id}/forms`,
+        `${apiUrl}/api/forms/${id}/forms`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -176,7 +178,7 @@ const fetchUser = async () => {
     console.log("delete form");
     try {
       await axios.delete(
-        `http://localhost:5000/api/forms/form/${formid}`,
+        `${apiUrl}/api/forms/form/${formid}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }

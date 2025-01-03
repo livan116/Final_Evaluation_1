@@ -7,6 +7,7 @@ import NavHead from "../NavHead/NavHead";
 import { useTheme } from "../../Context/ThemeContext";
 import Responses from "../Responses/Responses";
 import { useParams } from "react-router-dom";
+const apiUrl = import.meta.env.VITE_API_URI;
 const WorkSpace = () => {
   const [fields, setFields] = useState([]);
   const [formResponse, setFormResponse] = useState([]);
@@ -23,7 +24,7 @@ const WorkSpace = () => {
       try {
         if (formId) {
           const response = await axios.get(
-            `http://localhost:5000/api/forms/form/${formId}`,
+            `${apiUrl}/api/forms/form/${formId}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -58,7 +59,7 @@ const WorkSpace = () => {
         // const selectedFolderId = localStorage.getItem("folderId"); // Retrieve the folder ID from localStorage
         // console.log("Folder ID:", folderId);
         const response = await axios.post(
-          `http://localhost:5000/api/folders/create-form-bot`, // PUT request to update the form by formId
+          `${apiUrl}/api/folders/create-form-bot`, // PUT request to update the form by formId
           {
             folderId:folderId,
             formBotName: formName, // Form name
@@ -85,7 +86,7 @@ const WorkSpace = () => {
   const updateForm = async () => {
     try {
         const response = await axios.put(
-            `http://localhost:5000/api/forms/form/${formId}`, // PUT request to update the form by formId
+            `${apiUrl}/api/forms/form/${formId}`, // PUT request to update the form by formId
             {
                 folderId: folderId, // folder where formbot should be update
                 name : formName, // Form name
@@ -150,7 +151,7 @@ const WorkSpace = () => {
     console.log(fId);
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/forms/share/${formId}`,
+        `${apiUrl}/api/forms/share/${formId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -158,7 +159,7 @@ const WorkSpace = () => {
       console.log("Form link:", response.data.linkId);
       // localStorage.setItem("formId",formId);
       localStorage.setItem("linkId", response.data.linkId);
-      const link = `http://localhost:5173/formbot/${response.data.linkId}`;
+      const link = `https://final-evaluation-1-bm81ixh5k-livan-kumars-projects.vercel.app/formbot/${response.data.linkId}`;
       navigator.clipboard.writeText(link);
       alert('Link copied to clipboard: ' + link);
 

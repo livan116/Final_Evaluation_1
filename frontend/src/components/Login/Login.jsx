@@ -8,6 +8,9 @@ import tri1 from "../../assets/Polygon_1.png";
 import tri2 from "../../assets/Polygon_2.png";
 import toast from "react-hot-toast";
 
+
+const apiUrl = import.meta.env.VITE_API_URI;
+
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -27,7 +30,7 @@ const Login = () => {
     try {
       // Send the form data to the backend
       const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        `${apiUrl}/api/auth/login`,
         formData
       );
       console.log(response);

@@ -12,6 +12,7 @@ const ChatbotForm = () => {
   const [currentValue, setCurrentValue] = useState(""); // To store current input value
 
   const { linkId } = useParams();
+  const apiUrl = import.meta.env.VITE_API_URI;
 
   useEffect(() => {
     let didCancel = false;
@@ -19,7 +20,7 @@ const ChatbotForm = () => {
     const fetchFormData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/forms/share/${linkId}`
+          `${apiUrl}/api/forms/share/${linkId}`
         );
         if (!didCancel && response.data.success) {
           setForm(response.data.form);
@@ -88,7 +89,7 @@ const ChatbotForm = () => {
   const submitForm = async (finalResponses) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/forms/save-response",
+        `${apiUrl}/api/forms/save-response`,
         {
           formId: form._id,
           responses: finalResponses, // Submit the final set of responses
