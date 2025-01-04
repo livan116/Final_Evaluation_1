@@ -139,6 +139,15 @@
     font-size: 1rem;
   }
 
+  .enableBtn{
+    padding: 4px 12px;
+    border-radius: 5px;
+    background-color: #1A5FFF;
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+  }
+
   .saveBtn{
     padding: 4px 12px;
     border-radius: 5px;
@@ -204,7 +213,7 @@
 }
 
 .sidebar{
-    width: 23vw;
+    width: 27vw;
     min-height: 100vh;
     /* height: 100%; */
     background-color: var(--bg-color);

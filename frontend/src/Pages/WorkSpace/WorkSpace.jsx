@@ -7,17 +7,22 @@ import NavHead from "../NavHead/NavHead";
 import { useTheme } from "../../Context/ThemeContext";
 import Responses from "../Responses/Responses";
 import { useParams } from "react-router-dom";
+import toast from "react-hot-toast";
+
 const apiUrl = import.meta.env.VITE_API_URI;
+const frontendUrl = import.meta.env.VITE_FRONTEND_URI;
+
 const WorkSpace = () => {
   const [fields, setFields] = useState([]);
   const [formResponse, setFormResponse] = useState([]);
   const [formName, setFormName] = useState("");
   const [fId,setformId] = useState(null);
-
+  const [isFormSaved, setIsFormSaved] = useState(true);
   const [workBool,setWorkBool] = useState(true);
   const {folderId,formId} = useParams();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
+  
   // Fetch form data when the component mounts
   useEffect(() => {
     const fetchFormData = async () => {
@@ -31,7 +36,6 @@ const WorkSpace = () => {
               },
             }
           );
-          console.log("Form data:", response.data.form);
           if (response.data.success) {
             const form = response.data.form;
             setFormName(form.name); // Set form name
@@ -51,13 +55,11 @@ const WorkSpace = () => {
 
  // Get formId from localStorage or from URL parameters
   const saveForm = async () => {
-    console.log("Folder ID:", formId);
-    if (!formId) {
+    setIsFormSaved(!isFormSaved)
+    if (!fId) {
       updateForm(); // Update the form if formId is present
     } else {
       try {
-        // const selectedFolderId = localStorage.getItem("folderId"); // Retrieve the folder ID from localStorage
-        // console.log("Folder ID:", folderId);
         const response = await axios.post(
           `${apiUrl}/api/folders/create-form-bot`, // PUT request to update the form by formId
           {
@@ -69,12 +71,9 @@ const WorkSpace = () => {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
           }
         );
-        // localStorage.setItem("formId", response.data.formBot._id);
-        console.log("Form saved:", response.data.formBot._id);
         setformId(response.data.formBot._id);
-        console.log("Form saved:", response.data.formBot._id);
         if (response.data.success) {
-          alert("Form saved successfully!");
+          toast.success("Form saved successfully!");
         }
       } catch (error) {
         console.error("Error updating form:", error);
@@ -98,12 +97,12 @@ const WorkSpace = () => {
         );
 
         if (response.data.success) {
-            alert("Form updated successfully!");
+            toast("Form updated successfully!");
         }
     }
     catch (error) {
         console.error("Error updating form:", error);
-        alert("Error updating form");
+        toast("Error updating form");
     }
 };
 
@@ -159,11 +158,9 @@ const WorkSpace = () => {
       console.log("Form link:", response.data.linkId);
       // localStorage.setItem("formId",formId);
       localStorage.setItem("linkId", response.data.linkId);
-      const link = `https://final-evaluation-1-bm81ixh5k-livan-kumars-projects.vercel.app/formbot/${response.data.linkId}`;
+      const link = `${frontendUrl}/formbot/${response.data.linkId}`;
       navigator.clipboard.writeText(link);
-      alert('Link copied to clipboard: ' + link);
-
-      alert("Form link generated!");
+      toast('Link copied to clipboard');
     } catch (error) {
       console.error("Error sharing form:", error);
     }
@@ -183,8 +180,8 @@ const WorkSpace = () => {
         <input type="text" placeholder="Enter Form Name" value={formName} onChange={handleChange}/>
       </div>
       <div className={style.flowContainer}>
-        <button className={style.flow} onClick={()=>setWorkBool(true)}>Flow</button>
-        <button className={style.response} onClick={()=>setWorkBool(false)}>Response</button>
+        <button className={workBool?style.flow:style.response} onClick={()=>setWorkBool(true)}>Flow</button>
+        <button className={workBool?style.response:style.flow} onClick={()=>setWorkBool(false)}>Response</button>
       </div>
       <div className={style.saveConatiner}>
         <label className={style.switch}>
@@ -194,8 +191,8 @@ const WorkSpace = () => {
           Dark
         </label>
         <div className={style.navbtns}>
-        <button className={style.shareBtn} onClick={shareForm}>share</button>
-        <button className={style.saveBtn} onClick={saveForm}>save</button>
+        <button className={isFormSaved?style.shareBtn:style.enableBtn} disabled={isFormSaved} onClick={shareForm}>share</button>
+        <button className={style.saveBtn}  onClick={saveForm}>save</button>
         <button className={style.crossBtn} onClick={()=>navigate('/form-dashboard')}>X</button>
         </div>
       </div>

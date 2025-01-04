@@ -26,7 +26,6 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
     try {
       // Send the form data to the backend
       const response = await axios.post(
@@ -37,6 +36,10 @@ const Login = () => {
       console.log(formData)
       if(response.status === 200){
         localStorage.setItem('token', response.data.token)
+        toast.success("Login Successful", {
+          duration: 4000,
+          position: "top-right",
+        })
         navigate('/form-dashboard')
         toast.success(response.data.message, {
           duration: 4000,
@@ -59,7 +62,7 @@ const Login = () => {
       });
       navigate('/form-dashboard')
     }
-  })
+  },[])
   return (
     <div>
       <div className={style.container}>
