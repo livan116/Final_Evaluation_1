@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import style from "./ChatBot.module.css";
 import bot from "../../assets/profile-bot.png";
+import send from "../../assets/send.png";
 import axios from "axios";
 
 const ChatbotForm = () => {
@@ -168,7 +169,7 @@ const ChatbotForm = () => {
                 setCurrentValue(""); // Clear input field after submission
               }}
             >
-              Send
+              <img src={send} alt="send" />
             </button>
           </div>
         )}
