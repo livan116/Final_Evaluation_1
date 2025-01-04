@@ -149,9 +149,6 @@ const fetchUser = async () => {
 
   const handlegetForms = async (id) => {
     setFolderId(id);
-    console.log(folderId);
-    // localStorage.setItem("folderId", id);
-    // console.log(localStorage.getItem("folderId"));
     try {
       const response = await axios.get(
         `${apiUrl}/api/forms/${id}/forms`,

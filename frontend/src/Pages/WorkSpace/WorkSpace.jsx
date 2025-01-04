@@ -54,7 +54,7 @@ const WorkSpace = () => {
   // Get formId from localStorage or from URL parameters
   const saveForm = async () => {
     setIsFormSaved(!isFormSaved);
-    if (fId) {
+    if (!formId) {
       updateForm(); // Update the form if formId is present
     } else {
       try {
