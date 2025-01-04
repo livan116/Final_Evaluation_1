@@ -50,3 +50,13 @@
 .inputSend{
     display: flex;
 }
+
+.inputSend button{
+    padding: 4px 12px;
+    border-radius: 50px;
+    background-color: #1A5FFF;
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    outline:none;
+}
