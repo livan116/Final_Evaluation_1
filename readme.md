@@ -6,7 +6,7 @@ Users can **create short URLs**, **track clicks**, **view analytics**, and **man
 ---
 
 ## 🚀 **Live Demo**
-🔗 [Live App (if deployed)](https://your-live-app-link.com)
+🔗 [Live App](https://your-live-app-link.com)
 
 ---
 
@@ -59,3 +59,30 @@ cd url-shortener-analytics
 
 cd backend
 npm install
+
+✅ Create a .env file in the backend directory:
+
+PORT=5000
+MONGO_URI=your-mongodb-uri
+JWT_SECRET=your-secret-key
+
+Run the Backend:
+npm start
+
+3️⃣ Setup Frontend
+cd ../frontend
+npm install
+
+Run the Frontend:
+npm start
+🔗 Frontend runs on :(http://localhost:3000)
+🔗 Backend runs on: (http://localhost:5000)
+
+📌 API Endpoints
+🔗 URL Management
+Method	Endpoint	Description
+POST	/api/url/shorten	Shorten a URL
+GET	/api/url/:shortCode	Redirect to Original URL
+DELETE	/api/url/:id	Delete a URL
+
+
