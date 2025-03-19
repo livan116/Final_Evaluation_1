@@ -5,7 +5,7 @@ import style from "./WorkSpace.module.css";
 import { useNavigate } from "react-router-dom";
 import NavHead from "../NavHead/NavHead";
 import { useTheme } from "../../Context/ThemeContext";
-import Responses from "../Responses/Responses";
+import Responses from "../Responses/ResponsePage";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 

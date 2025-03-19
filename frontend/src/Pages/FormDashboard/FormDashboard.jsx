@@ -7,7 +7,9 @@ import axios from "axios";
 
 const apiUrl = import.meta.env.VITE_API_URI;
 
+
 const FormDashboard = () => {
+  console.log("hello")
   const [bool, setBool] = useState(false);
   const [bool2, setBool2] = useState(false);
   const [bool3, setBool3] = useState(false);
@@ -121,6 +123,7 @@ const FormDashboard = () => {
 useEffect(() => {
   fetchFolders(); // Fetch folders when component mounts
   fetchUser();
+
 }, []);
 
 const fetchUser = async () => {

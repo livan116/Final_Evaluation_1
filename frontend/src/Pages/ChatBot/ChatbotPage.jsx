@@ -42,18 +42,16 @@ const ChatbotForm = () => {
     };
   }, [linkId]);
   
-
   // Function to handle bubble field progression
   const handleBubbleResponse = () => {
     const currentField = form.fields[currentFieldIndex];
     const newResponse = {
       label: currentField.label,
-      answer: currentField.value, // Bubble value is static
+      value: currentField.value, // Changed from 'answer' to 'value' to match controller expectations
       type: "bubble", // Mark it as a bubble
     };
 
     const updatedResponses = [...responses, newResponse];
-
     setResponses(updatedResponses);
 
     // Check if it's the last field and mark as completed
@@ -67,21 +65,26 @@ const ChatbotForm = () => {
 
   // Function to handle input field submission
   const handleInputSubmit = async (value) => {
+    if (!value.trim()) {
+      alert("Please enter a valid response");
+      return;
+    }
+
     const currentField = form.fields[currentFieldIndex];
     const newResponse = {
       label: currentField.label,
-      answer: value,
+      value: value, // Changed from 'answer' to 'value' to match controller expectations
       type: "input", // Mark it as an input
     };
 
     const updatedResponses = [...responses, newResponse];
+    setResponses(updatedResponses); // Update responses state
 
     // Check if it's the last field and mark as completed
     if (currentFieldIndex === form.fields.length - 1) {
       setFormCompleted(true); // Form completed
       await submitForm(updatedResponses); // Pass the updated responses array
     } else {
-      setResponses(updatedResponses); // Update responses state
       setCurrentFieldIndex(currentFieldIndex + 1); // Move to the next field
     }
   };
@@ -89,24 +92,38 @@ const ChatbotForm = () => {
   // Submit form data to backend
   const submitForm = async (finalResponses) => {
     try {
+      // Format responses to match backend expectations
+      const formattedResponses = finalResponses.map(response => ({
+        label: response.label,
+        value: response.value // Controller expects 'value' not 'answer'
+      }));
+
       const response = await axios.post(
         `${apiUrl}/api/forms/save-response`,
         {
           formId: form._id,
-          responses: finalResponses, // Submit the final set of responses
+          responses: formattedResponses
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
         }
       );
-      console.log(finalResponses);
+
       if (response.data.success) {
-        alert("Thank you for completing the form!");
+        console.log("Form responses submitted successfully");
       } else {
-        alert("Error submitting form responses");
+        console.error("Error submitting form responses:", response.data.message);
       }
     } catch (error) {
       console.error("Error submitting form responses:", error);
+      if (error.response) {
+        console.error("Response data:", error.response.data);
+        console.error("Response status:", error.response.status);
+      }
     }
   };
-
 
   useEffect(() => {
     if (form && form.fields.length > 0) {
@@ -135,38 +152,50 @@ const ChatbotForm = () => {
           {/* Render all previous responses as a chat */}
           {responses.map((response, index) => (
             <div className={style.Chat} key={index} style={{ marginBottom: "10px" }}>
-              {response.type === "bubble"?(
+              {response.type === "bubble" ? (
                 <div className={style.bubbleDiv}>
-                <img src={bot} alt="bot" className={style.botImg} />
-                <button className={style.bubbleStyle}>{response.answer}</button>
+                  <img src={bot} alt="bot" className={style.botImg} />
+                  <button className={style.bubbleStyle}>{response.value}</button>
                 </div>
-                ):(
-                  <div className={style.inputDiv}>
-                  <button className={style.inputStyle}>{response.answer}</button></div>)}
-
+              ) : (
+                <div className={style.inputDiv}>
+                  <button className={style.inputStyle}>{response.value}</button>
+                </div>
+              )}
             </div>
           ))}
+
+          {/* Render the current field based on its type */}
+          {!formCompleted && currentField && currentField.type === "bubble" ? (
+            <div className={style.bubbleDiv}>
+              <img src={bot} alt="bot" className={style.botImg} />
+              <button className={style.bubbleStyle}>{currentField.label}: {currentField.value}</button>
+            </div>
+          ) : null}
         </div>
 
-        {/* Render the current field based on its type */}
-        {currentField.type === "bubble" ? (
-          <div>
-            <p>{currentField.label}</p>
-            <p>{currentField.value}</p>
-          </div>
-        ) : (
+        {/* Input field for user response */}
+        {!formCompleted && currentField && currentField.type === "input" && (
           <div className={style.inputSend}>
             <input
-              type={currentField.inputType}
+              type={currentField.inputType || "text"}
               placeholder={`Enter your ${currentField.label.toLowerCase()}`}
               style={{ marginBottom: "10px", padding: "5px", width: "100%" }}
               value={currentValue}
               onChange={(e) => setCurrentValue(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter' && currentValue.trim()) {
+                  handleInputSubmit(currentValue);
+                  setCurrentValue(""); // Clear input field after submission
+                }
+              }}
             />
             <button
               onClick={() => {
-                handleInputSubmit(currentValue);
-                setCurrentValue(""); // Clear input field after submission
+                if (currentValue.trim()) {
+                  handleInputSubmit(currentValue);
+                  setCurrentValue(""); // Clear input field after submission
+                }
               }}
             >
               <img src={send} alt="send" />

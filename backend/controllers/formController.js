@@ -254,27 +254,94 @@ exports.saveFormResponse = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
-
+// Corrected implementation of getFormResponses to match your route structure
 exports.getFormResponses = async (req, res) => {
   try {
     const { formId } = req.params;
-    console.log("Form ID:", formId);
+    
+    // Find the form to get its fields structure
+    const form = await FormBot.findById(formId);
+    if (!form) {
+      return res.status(404).json({ 
+        success: false, 
+        message: "Form not found" 
+      });
+    }
     
     // Find all responses for the given formId
-    const formResponses = await FormResponse.find({ form: formId }).populate('form');
+    const formResponses = await FormResponse.find({ form: formId })
+      .sort({ createdAt: -1 }) // Sort by newest first
+      .lean(); // Convert to plain JavaScript objects for better performance
 
-    if (!formResponses || formResponses.length === 0) {
-      return res.status(404).json({ success: false, message: "No responses found for this form" });
-    }
-
+    // Return formatted response
     res.status(200).json({
       success: true,
       data: formResponses,
+      form: {
+        _id: form._id,
+        name: form.name,
+        viewCount: form.viewCount || 0,
+        startedCount: form.startedCount || 0,
+        submittedCount: form.submittedCount || 0,
+        fields: form.fields.sort((a, b) => a.sequence - b.sequence) // Sort fields by sequence
+      }
     });
   } catch (error) {
     console.error("Error fetching form responses:", error);
-    res.status(500).json({ success: false, message: "Server error" });
+    res.status(500).json({ 
+      success: false, 
+      message: "Server error" 
+    });
   }
 };
 
+// Implement saveFormResponse to match your schema structure
+exports.saveFormResponse = async (req, res) => {
+  try {
+    const { formId, responses } = req.body;
+   
+    // Check if form exists
+    const form = await FormBot.findById(formId);
+    if (!form) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Form not found" });
+    }
+    
+    // If this is the first response (form is being started), increment the 'started' count
+    if (responses && responses.length > 0) {
+      form.startedCount = (form.startedCount || 0) + 1;
+      await form.save();
+    }
+
+    // Transform responses to match the schema
+    const formattedResponses = responses.map(response => ({
+      label: response.label,
+      answer: response.value // Map 'value' from the frontend to 'answer' in the schema
+    }));
+    
+    // Save the form responses
+    const formResponse = new FormResponse({
+      form: formId,
+      responses: formattedResponses,
+    });
+
+    await formResponse.save();
+
+    // Check if all responses are filled (form is completely submitted)
+    const allResponsesSubmitted = responses.every(
+      (response) => response.value !== undefined && response.value !== null && response.value !== ""
+    );
+    
+    if (allResponsesSubmitted) {
+      form.submittedCount = (form.submittedCount || 0) + 1;
+      await form.save();
+    }
+
+    res.json({ success: true, message: "Form responses saved successfully" });
+  } catch (error) {
+    console.error("Error saving form responses:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
 
